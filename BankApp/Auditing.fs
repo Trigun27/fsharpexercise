@@ -6,7 +6,7 @@ open Domain.Transaction
 
 /// Logs to the console
 let printTransaction _ accountId (transaction: Transaction) =
-    printfn "Account %O: %s of %M (approved: %b)" accountId transaction.Operation transaction.Amount transaction.Accepted
+    printfn "Account %O: %A of %M" accountId transaction.Operation transaction.Amount
 
 
 // Logs to both console and file system
