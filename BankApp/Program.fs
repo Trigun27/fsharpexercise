@@ -28,6 +28,12 @@ module CommandParsing =
         | 'w' -> Some (AccountCommand Withdraw) 
         | 'x' -> Some Exit
         | _ -> None
+        
+        
+    let tryGetBankCommand cmd=
+        match cmd with
+        | Exit -> None
+        | AccountCommand cmd -> Some cmd
     
 [<AutoOpen>]
 module UserInput =
@@ -87,10 +93,7 @@ let main argv =
         commands
         |> Seq.choose tryParse
         |> Seq.takeWhile ((<>) Exit)
-        |> Seq.choose(fun cmd ->
-            match cmd with
-            | Exit -> None
-            | AccountCommand cmd -> Some cmd)
+        |> Seq.choose tryGetBankCommand
         |> Seq.map getAmount
         |> Seq.fold processCommand openingAccount
     
