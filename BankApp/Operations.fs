@@ -43,6 +43,8 @@ let tryParseSerializedOperation operation =
 let loadAccount (owner, accountId, transactions) =
     let openingAccount = classifyAccount { Id = accountId; Balance = 0M; Owner = { Name = owner }; Currency = RUB }
 
+    printfn "%A" transactions
+    
     transactions
     |> Seq.sortBy(fun txn -> txn.Date)
     |> Seq.fold(fun account txn ->

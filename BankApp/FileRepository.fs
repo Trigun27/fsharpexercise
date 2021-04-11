@@ -5,9 +5,9 @@ open System.IO
 open BankApp.Domain
 open Domain.Transaction
 
-let private accountsPath =
+let accountsPath =
     let path = @"accounts"
-    Directory.CreateDirectory path |> ignore
+    let result = Directory.CreateDirectory path
     path
     
 let tryFindAccountFolder owner =    
@@ -23,8 +23,8 @@ let private buildPath(owner, accountId:Guid) = sprintf @"%s\%s_%O" accountsPath 
 let writeTransaction accountId owner transaction =
     let path = buildPath(owner, accountId)    
     path |> Directory.CreateDirectory |> ignore
-    let filePath = sprintf "%s/%d.txt" path (transaction.Date.ToFileTimeUtc())
-    let line = sprintf "%O***%A***%M" transaction.Date transaction.Operation transaction.Amount
+    let filePath = sprintf "%s\%d.txt" path (transaction.Date.ToFileTimeUtc())
+    let line = sprintf "%O***%s***%M" transaction.Date transaction.Operation transaction.Amount
     File.WriteAllText(filePath, line)
     
 let readTransaction (name:string) =

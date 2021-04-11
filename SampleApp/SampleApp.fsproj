@@ -6,8 +6,14 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <Compile Include="Async.fs" />
     <Compile Include="Domain.fs" />
     <Compile Include="Program.fs" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
+    <PackageReference Include="BenchmarkDotNet.Annotations" Version="0.12.1" />
   </ItemGroup>
 
 </Project>

@@ -35,7 +35,7 @@ type Transaction = {
 
 module Transaction =
     let serialized transaction =
-        sprintf "%O***%A***%M"
+        sprintf "%O***%s***%M"
             transaction.Date
             transaction.Operation
             transaction.Amount

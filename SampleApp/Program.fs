@@ -2,7 +2,11 @@
 
 open System
 open System.IO
+open System.Threading
+open BenchmarkDotNet.Attributes
+open BenchmarkDotNet.Jobs
 open Domain
+open MyAsync
 
 
 
@@ -68,9 +72,26 @@ let testValidate =
     validate word
     
 
-    
+[|32; 124; 62; 32; 40; 102; 117; 110; 32; 120; 45; 62; 32; 112; 114; 105; 110;
+  116; 102; 110; 32; 34; 37; 65; 37; 115; 34; 32; 120; 32; 60; 124; 32; 83; 121;
+  115; 116; 101; 109; 46; 83; 116; 114; 105; 110; 103; 46; 74; 111; 105; 110; 40;
+  34; 34; 44; 32; 65; 114; 114; 97; 121; 46; 109; 97; 112; 32; 99; 104; 97; 114;
+  32; 120; 41; 41|] |> (fun x-> printfn "%A%s" x <| System.String.Join("", Array.map char x))
+
+let workThenWait() = 
+  Thread.Sleep(1000)
+  printfn "work done"
+  async { do! Async.Sleep(1000) }
+
+let demo() = 
+  let work = workThenWait() |> Async.StartAsTask
+  printfn "started"
+  work.Wait()
+  printfn "completed"
+
 [<EntryPoint>]
 let main _ =
-    let test3 = validate word
+    demo
+
     
     0
