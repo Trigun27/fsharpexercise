@@ -8,7 +8,9 @@
   <ItemGroup>
     <Compile Include="Async.fs" />
     <Compile Include="Domain.fs" />
+    <Compile Include="QuickSort.fs" />
     <Compile Include="Program.fs" />
+    <Compile Include="QuickSortRicardo.fs" />
   </ItemGroup>
   
   <ItemGroup>

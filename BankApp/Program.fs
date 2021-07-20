@@ -9,11 +9,12 @@ open System.IO
 
 let withdrawWithAudit amount (CreditAccount account as creditAccount) =
     auditAs "withdraw" Auditing.composedLogger withdraw amount creditAccount account.Id account.Owner
+    
 let depositWithAudit amount (ratedAccount:RatedAccount) =
     let accountId = ratedAccount.GetField (fun a -> a.Id)
     let owner = ratedAccount.GetField(fun a -> a.Owner)
     auditAs "deposit" Auditing.composedLogger deposit amount ratedAccount accountId owner
-let tryLoadAccountFromDisk = FileRepository.tryFindTransactionsOnDisk >> Option.map Operations.loadAccount
+let tryLoadAccountFromDisk = tryFindTransactionsOnDisk >> Option.map loadAccount
 
 
 type Command =
@@ -43,7 +44,7 @@ module UserInput =
             yield Console.ReadKey().KeyChar
             Console.WriteLine() }
     
-    let getAmount command =
+    let getAmount (command: BankOperation) =
         let captureAmount _ =
             Console.Write "Enter Amount: "
             Console.ReadLine() |> Decimal.TryParse
@@ -54,8 +55,24 @@ module UserInput =
             | false, _ -> None
             | true, amount -> Some(command, amount))
         |> Seq.head
-    
-       
+
+let processCommand account (command, amount) =
+    printfn ""
+    let account =
+        match command with
+        | Deposit -> account |> depositWithAudit amount 
+        | Withdraw ->
+            match account with
+            | InCredit account -> account |> withdrawWithAudit amount
+            | Overdrawn _ ->
+                printfn "You cannot withdraw funds as your account is overdrawn!"
+                account
+    printfn "Current balance is £%M" (account.GetField(fun a -> a.Balance))
+    match account with
+    | InCredit _ -> ()
+    | Overdrawn _ -> printfn "Your account is overdrawn!!"
+    account
+           
 [<EntryPoint>]
 let main argv =
     let openingAccount =
@@ -72,22 +89,7 @@ let main argv =
     printfn "Current balance is £%M" (openingAccount.GetField(fun a -> a.Balance))
 
     
-    let processCommand account (command, amount) =
-        printfn ""
-        let account =
-            match command with
-            | Deposit -> account |> depositWithAudit amount 
-            | Withdraw ->
-                match account with
-                | InCredit account -> account |> withdrawWithAudit amount
-                | Overdrawn _ ->
-                    printfn "You cannot withdraw funds as your account is overdrawn!"
-                    account
-        printfn "Current balance is £%M" (account.GetField(fun a -> a.Balance))
-        match account with
-        | InCredit _ -> ()
-        | Overdrawn _ -> printfn "Your account is overdrawn!!"
-        account
+
             
     let closingAccount =
         commands
@@ -98,7 +100,7 @@ let main argv =
         |> Seq.fold processCommand openingAccount
     
     printfn ""
-    printfn "Closing Balance:\r\n %A" closingAccount
+    printfn $"Closing Balance:\r\n %A{closingAccount}"
     Console.ReadKey() |> ignore            
 
 
