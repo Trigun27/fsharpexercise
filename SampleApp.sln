@@ -10,6 +10,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebApplication", "WebApplic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{D41BAADA-17F4-4DEB-8F51-4EC327E36EA9}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FotoFilter", "FotoFilter\FotoFilter.fsproj", "{9F935B67-97CF-4B29-8817-D2064C5B873E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{D41BAADA-17F4-4DEB-8F51-4EC327E36EA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D41BAADA-17F4-4DEB-8F51-4EC327E36EA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D41BAADA-17F4-4DEB-8F51-4EC327E36EA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F935B67-97CF-4B29-8817-D2064C5B873E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F935B67-97CF-4B29-8817-D2064C5B873E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F935B67-97CF-4B29-8817-D2064C5B873E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F935B67-97CF-4B29-8817-D2064C5B873E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

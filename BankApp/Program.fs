@@ -87,9 +87,6 @@ let main argv =
                                     Currency = RUB})
         
     printfn "Current balance is £%M" (openingAccount.GetField(fun a -> a.Balance))
-
-    
-
             
     let closingAccount =
         commands

@@ -24,7 +24,7 @@ let writeTransaction accountId owner transaction =
     let path = buildPath(owner, accountId)    
     path |> Directory.CreateDirectory |> ignore
     let filePath = sprintf "%s\%d.txt" path (transaction.Date.ToFileTimeUtc())
-    let line = sprintf "%O***%s***%M" transaction.Date transaction.Operation transaction.Amount
+    let line = serialized transaction
     File.WriteAllText(filePath, line)
     
 let readTransaction (name:string) =
